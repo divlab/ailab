@@ -1,16 +1,58 @@
 # ailab
 
-这个仓库中的初始内容由 AI 助手协助完成。
+一个用于实验 MCP（Model Context Protocol）能力的仓库。
 
-## 说明
+## 今日天气 MCP
 
-- 本项目当前处于初始化阶段。
-- 文档与后续开发计划将逐步完善。
+本仓库提供了一个可直接运行的 MCP 服务：`weather_mcp.py`。
 
-## TODO 计划
+### 功能
 
-- [ ] 明确项目目标与需求范围
-- [ ] 设计项目目录结构与开发规范
-- [ ] 添加基础代码框架与示例模块
-- [ ] 补充自动化测试与 CI 配置
-- [ ] 完善使用文档与贡献指南
+- 提供 `today_weather(city: str)` 工具。
+- 输入城市名，返回该城市“今日天气摘要”（温度、体感、湿度、风速、最高/最低温、日出日落）。
+- 使用 Open-Meteo（免 API Key）获取地理编码与天气数据。
+
+### 安装
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+### 运行
+
+```bash
+python weather_mcp.py
+```
+
+默认将以 MCP 服务方式启动。
+
+### 在 MCP 客户端中配置（示例）
+
+```json
+{
+  "mcpServers": {
+    "today-weather": {
+      "command": "python",
+      "args": ["/workspace/ailab/weather_mcp.py"]
+    }
+  }
+}
+```
+
+### 调用示例
+
+在支持 MCP 的客户端中调用：
+
+- 工具名：`today_weather`
+- 参数示例：`{"city": "北京"}`
+
+返回示例（节选）：
+
+```text
+北京, China 今日天气（2026-01-01）
+天气：晴
+当前温度：2.1°C（体感 -1.0°C）
+...
+```
